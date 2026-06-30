@@ -407,3 +407,13 @@ def enable_checkpointing_for_ernie_transformer(
     return enable_checkpointing(model, config, config.compile, [
         (model.layers, ["x"]),
     ])
+
+
+def enable_checkpointing_for_krea2_transformer(
+        model: nn.Module,
+        config: TrainConfig,
+) -> LayerOffloadConductor:
+    return enable_checkpointing(model, config, config.compile, [
+        (model.blocks, ["x"]),
+    ])
+

@@ -1,5 +1,7 @@
 [project]
 requires-python = ">=3.10"
+name = "OneTrainer"
+version = "0.1.0"
 
 [tool.ruff]
 extend-exclude = [

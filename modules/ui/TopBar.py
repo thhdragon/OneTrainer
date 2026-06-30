@@ -101,6 +101,7 @@ class TopBar:
                 ("Chroma1", ModelType.CHROMA_1),
                 ("QwenImage", ModelType.QWEN),
                 ("Z-Image", ModelType.Z_IMAGE),
+                ("Krea 2", ModelType.KREA2),
                 ("Ernie Image", ModelType.ERNIE),
             ],
             ui_state=self.ui_state,

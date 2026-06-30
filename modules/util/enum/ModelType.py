@@ -38,7 +38,7 @@ class ModelType(Enum):
     QWEN = 'QWEN'
 
     Z_IMAGE = 'Z_IMAGE'
-
+    KREA2 = 'KREA2'
     ERNIE = 'ERNIE'
 
     def __str__(self):
@@ -109,6 +109,9 @@ class ModelType(Enum):
     def is_z_image(self):
         return self == ModelType.Z_IMAGE
 
+    def is_krea2(self):
+        return self == ModelType.KREA2
+
     def is_ernie(self):
         return self == ModelType.ERNIE
 
@@ -161,6 +164,7 @@ class ModelType(Enum):
             or self.is_hunyuan_video() \
             or self.is_hi_dream() \
             or self.is_z_image() \
+            or self.is_krea2() \
             or self.is_ernie()
 
     def is_video_model(self) -> bool:

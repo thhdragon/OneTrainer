@@ -51,6 +51,11 @@ def build_muon_adam_key_fn(
                     'layers',
                     'refiner',
                 ]
+            case ModelType.KREA2:
+                default_patterns = [
+                    'blocks',
+                    'txtfusion',
+                ]
             case _: # Unmatched cases
                 raise NotImplementedError(f"Default hidden layer patterns are not defined for model type: {model.model_type}")
         filters = [ModuleFilter(p, use_regex=False) for p in default_patterns]

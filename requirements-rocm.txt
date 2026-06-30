@@ -2,10 +2,18 @@
 # please open an issue or pull request on github
 
 # pytorch
---extra-index-url https://download.pytorch.org/whl/rocm7.2
-torch==2.12.0+rocm7.2; sys_platform == "linux"
-torchvision==0.27.0+rocm7.2; sys_platform == "linux"
-onnxruntime==1.23.2
+--extra-index-url https://rocm.nightlies.amd.com/whl-multi-arch/
+torch
+torchvision
+onnxruntime
+amd-torch-device-gfx1150
+amd-torchvision-device-gfx1150
+rocm
+rocm-sdk-core
+rocm-sdk-devel
+rocm-sdk-device-gfx1150
+rocm-sdk-libraries
+triton-windows
 
 # optimizers
 # TODO
