@@ -29,6 +29,7 @@ class ModelType(Enum):
     FLUX_DEV_1 = 'FLUX_DEV_1'
     FLUX_FILL_DEV_1 = 'FLUX_FILL_DEV_1'
     FLUX_2 = 'FLUX_2'
+    SEFI = 'SEFI'
 
     SANA = 'SANA'
 
@@ -98,6 +99,9 @@ class ModelType(Enum):
 
     def is_flux_2(self):
         return self == ModelType.FLUX_2
+
+    def is_sefi(self):
+        return self == ModelType.SEFI
 
     def is_chroma(self):
         return self == ModelType.CHROMA_1
@@ -182,7 +186,8 @@ class ModelType(Enum):
             or self.is_hi_dream() \
             or self.is_z_image() \
             or self.is_ernie() \
-            or self.is_ideogram()
+            or self.is_ideogram() \
+            or self.is_sefi()
 
     def is_video_model(self) -> bool:
         return self.is_hunyuan_video() #incase we add more video models in the future
@@ -204,7 +209,7 @@ class ModelType(Enum):
                 or self.is_chroma():
             return (TrainingMethod.FINE_TUNE, TrainingMethod.LORA, TrainingMethod.EMBEDDING)
         if self.is_qwen() or self.is_z_image() or self.is_flux_2() or self.is_ernie() \
-                or self.is_anima() or self.is_krea2() or self.is_ideogram():
+                or self.is_anima() or self.is_krea2() or self.is_ideogram() or self.is_sefi():
             return (TrainingMethod.FINE_TUNE, TrainingMethod.LORA)
         raise ValueError(f"No supported training methods defined for model type {self}")
 
@@ -234,7 +239,8 @@ class ModelType(Enum):
             or self.is_qwen() \
             or self.is_hunyuan_video() \
             or self.is_z_image() \
-            or self.is_ernie()
+            or self.is_ernie() \
+            or self.is_sefi()
         if has_legacy:
             formats.append(ModelFormat.LEGACY_LORA)
         return formats
@@ -245,7 +251,7 @@ class ModelType(Enum):
             formats.append(ModelFormat.ORIGINAL_SINGLE_FILE)
         elif (self.is_flux_1() or self.is_flux_2() or self.is_chroma() or self.is_hunyuan_video()
                 or self.is_hi_dream() or self.is_pixart() or self.is_qwen() or self.is_ernie()
-                or self.is_z_image() or self.is_anima() or self.is_krea2() or self.is_ideogram()):
+                or self.is_z_image() or self.is_anima() or self.is_krea2() or self.is_ideogram() or self.is_sefi()):
             formats.append(ModelFormat.ORIGINAL_TRANSFORMER)
         if self.is_z_image():
             formats.append(ModelFormat.COMFY_TRANSFORMER)
@@ -261,7 +267,8 @@ class ModelType(Enum):
             or self.is_hunyuan_video() \
             or self.is_hi_dream() \
             or self.is_z_image() \
-            or self.is_ernie()
+            or self.is_ernie() \
+            or self.is_sefi()
         if has_legacy:
             formats.append(ModelFormat.LEGACY_SAFETENSORS)
         return formats
@@ -311,6 +318,7 @@ _MODEL_PARTS: dict[ModelType, tuple[str, ...]] = {
     ModelType.Z_IMAGE: ("transformer", "text_encoder", "vae"),
     ModelType.ERNIE: ("transformer", "text_encoder", "vae"),
     ModelType.IDEOGRAM_4: ("transformer", "text_encoder", "unconditional_transformer", "vae"),
+    ModelType.SEFI: ("transformer", "text_encoder", "vae"),
 }
 
 
