@@ -1,157 +1,170 @@
-# OneTrainer
+---
+license: cc-by-nc-4.0
+gated: true
+extra_gated_heading: SeFi-Image Non-Commercial License Agreement
+extra_gated_prompt: >-
+  By clicking "Agree and access repository", you acknowledge that you have
+  read and agree to the Creative Commons Attribution-NonCommercial 4.0
+  International license (CC BY-NC 4.0). You agree to use SeFi-Image
+  checkpoints for non-commercial purposes only and to comply with all
+  applicable laws and responsible AI use requirements.
+extra_gated_fields:
+  I agree to use SeFi-Image checkpoints for non-commercial use only: checkbox
+extra_gated_button_content: Agree and access repository
+language:
+- en
+- zh
+pipeline_tag: text-to-image
+library_name: sefi
+tags:
+- text-to-image
+- image-generation
+- safetensors
+- bilingual-text-rendering
+- semantic-first-diffusion
+- gated
+---
 
-OneTrainer is a one-stop solution for all your Diffusion training needs.
+# SeFi-Image
 
-<a href="https://discord.gg/KwgcQd5scF"><img src="https://discord.com/api/guilds/1102003518203756564/widget.png" alt="OneTrainer Discord"/></a><br>
+<p>
+  <a href="https://jmliu206.github.io/sefi-web/"><img alt="Project Page" src="https://img.shields.io/badge/Project-Page-5c6bc0" height="22" /></a>
+  &nbsp;
+  <a href="https://arxiv.org/abs/2606.22568"><img alt="arXiv" src="https://img.shields.io/badge/arXiv-2606.22568-b31b1b" height="22" /></a>
+  &nbsp;
+  <a href="https://github.com/jmliu206/SeFi-Image"><img alt="Inference Code" src="https://img.shields.io/badge/Inference-Code-181717?logo=github&logoColor=white" height="22" /></a>
+  &nbsp;
+  <a href="https://huggingface.co/SeFi-Image"><img alt="Hugging Face Models" src="https://img.shields.io/badge/Hugging%20Face-Models-yellow" height="22" /></a>
+</p>
 
-## Features
+**SeFi-Image** is a text-to-image foundation model family built with
+**Semantic-First Diffusion**. It separates generation into semantic and texture
+latent streams, denoising semantic structure slightly ahead of texture details.
+This design gives the texture stream a cleaner structural anchor and improves
+the reconstruction-generation trade-off in latent diffusion.
 
--   **Supported models**: Ernie Image, Z-Image, Qwen Image, FLUX.1, Flux.2 Dev and Klein, Chroma, Stable Diffusion 1.5, 2.0, 2.1, 3.0, 3.5, SDXL, Würstchen-v2, Stable Cascade,
-    PixArt-Alpha, PixArt-Sigma, Sana, Hunyuan Video and inpainting models
--   **Model formats**: diffusers and ckpt models
--   **Training methods**: Full fine-tuning, LoRA, embeddings
--   **Masked Training**: Let the training focus on just certain parts of the samples
--   **Automatic backups**: Fully back up your training progress regularly during training. This includes all information to seamlessly continue training
--   **Image augmentation**: Apply random transforms such as rotation, brightness, contrast or saturation to each image sample to quickly create a more diverse dataset
--   **TensorBoard**: A simple TensorBoard integration to track the training progress
--   **Multiple prompts per image**: Train the model on multiple different prompts per image sample
--   **Noise Scheduler Rescaling**: From the paper
-    [Common Diffusion Noise Schedules and Sample Steps are Flawed](https://arxiv.org/abs/2305.08891)
--   **EMA**: Train your own EMA model. Optionally keep EMA weights in CPU memory to reduce VRAM usage
--   **Aspect Ratio Bucketing**: Automatically train on multiple aspect ratios at a time. Just select the target resolutions, buckets are created automatically
--   **Multi-Resolution Training**: Train multiple resolutions at the same time
--   **Dataset Tooling**: Automatically caption your dataset using BLIP, BLIP2 and WD-1.4, or create masks for masked training using ClipSeg or Rembg
--   **Model Tooling**: Convert between different model formats from a simple UI
--   **Sampling UI**: Sample the model during training without switching to a different application
+<table>
+  <tr>
+    <td width="50%"><img src="assets/teaser_canvas.jpg" alt="SeFi-Image generated examples"></td>
+    <td width="50%"><img src="assets/teaser_canvas_2.png" alt="More SeFi-Image generated examples"></td>
+  </tr>
+</table>
 
-![OneTrainerGUI.gif](resources/images/OneTrainerGUI.gif)
+## Highlights
 
-> [!NOTE]
-> Explore our 📚 wiki for essential tips and tutorials after installing. Start [here!](https://github.com/Nerogar/OneTrainer/wiki).
-> For command-line usage, see the [CLI Mode section](#cli-mode).
+<table>
+  <tr>
+    <td width="33%" align="center">
+      <img src="assets/icon_semantic.png" width="58" alt="Semantic-first generation icon"><br>
+      <b>Semantic-first generation</b><br>
+      <sub>Semantic latents denoise ahead of texture latents, providing a cleaner structural anchor for image synthesis.</sub>
+    </td>
+    <td width="33%" align="center">
+      <img src="assets/icon_speed.png" width="58" alt="Faster training icon"><br>
+      <b>Faster training</b><br>
+      <sub>The 5B model reaches strong benchmark performance with about <b>125K A800 GPU hours</b>.</sub>
+    </td>
+    <td width="33%" align="center">
+      <img src="assets/icon_tradeoff.png" width="58" alt="Generation-reconstruction trade-off icon"><br>
+      <b>Better generation-reconstruction trade-off</b><br>
+      <sub>A high-fidelity texture latent preserves reconstruction detail, while a compact semantic latent simplifies generation.</sub>
+    </td>
+  </tr>
+</table>
 
+## Performance
 
-## Installation
+The following numbers follow the main evaluation tables in the SeFi-Image
+technical report and summarize SeFi-Image-5B across representative benchmarks.
 
-> [!IMPORTANT]
-> Installing OneTrainer requires Python >=3.10 and <3.14.
-> You can download Python at https://www.python.org/downloads/windows/.
-> Then follow the below steps.
+![SeFi-Image-5B performance overview](assets/performance_overview.png)
 
-#### Automatic installation
+## Model Zoo
 
-1. Clone the repository `git clone https://github.com/Nerogar/OneTrainer.git`
-2. Run:
-    - Windows: Double click or execute `install.bat`
-    - Linux and Mac: Execute `install.sh`
+| Family | Model | Checkpoint | Steps | Guidance |
+| :--- | :--- | :--- | :---: | :---: |
+| Base | SeFi-Image-1B-Base | [SeFi-Image/SeFi-Image-1B-Base](https://huggingface.co/SeFi-Image/SeFi-Image-1B-Base) | 50 | 4.0 |
+| Base | SeFi-Image-2B-Base | [SeFi-Image/SeFi-Image-2B-Base](https://huggingface.co/SeFi-Image/SeFi-Image-2B-Base) | 50 | 4.0 |
+| Base | SeFi-Image-5B-Base | [SeFi-Image/SeFi-Image-5B-Base](https://huggingface.co/SeFi-Image/SeFi-Image-5B-Base) | 50 | 4.0 |
+| RL | SeFi-Image-5B-RL | [SeFi-Image/SeFi-Image-5B-RL](https://huggingface.co/SeFi-Image/SeFi-Image-5B-RL) | 50 | 4.0 |
+| Turbo | SeFi-Image-1B-turbo | [SeFi-Image/SeFi-Image-1B-turbo](https://huggingface.co/SeFi-Image/SeFi-Image-1B-turbo) | 4 | 1.0 |
+| Turbo | SeFi-Image-2B-turbo | [SeFi-Image/SeFi-Image-2B-turbo](https://huggingface.co/SeFi-Image/SeFi-Image-2B-turbo) | 4 | 1.0 |
+| Turbo | SeFi-Image-5B-turbo | [SeFi-Image/SeFi-Image-5B-turbo](https://huggingface.co/SeFi-Image/SeFi-Image-5B-turbo) | 4 | 1.0 |
 
-#### Manual installation
+## Quick Start
 
-1. Clone the repository `git clone https://github.com/Nerogar/OneTrainer.git`
-2. Navigate into the cloned directory `cd OneTrainer`
-3. Set up a virtual environment `python -m venv venv`
-4. Activate the new venv:
-    - Windows: `venv\scripts\activate`
-    - Linux and Mac: Depends on your shell, activate the venv accordingly
-5. Install the requirements `pip install -r requirements.txt`
+Install the SeFi inference code and dependencies from the SeFi-Image inference
+repository, then pass a Hugging Face checkpoint repo id:
 
-> [!Tip]
-> Some Linux distributions are missing required packages for instance: On Ubuntu you must install `libGL`:
->
-> ```bash
-> sudo apt-get update
-> sudo apt-get install libgl1
-> ```
->
-> Additionally it's been reported Alpine, Arch and Xubuntu Linux may be missing `tkinter`. Install it via `apk add py3-tk` for Alpine and `sudo pacman -S tk` for Arch.
-
-## Updating
-
-#### Automatic update
-
--   Run `update.bat` or `update.sh`
-
-#### Manual update
-
-1. Cd to folder containing the repo `cd OneTrainer`
-2. Pull changes `git pull`
-3. Activate the venv `venv/scripts/activate`
-4. Re-install all requirements `pip install -r requirements.txt --force-reinstall`
-
-## Usage
-
-OneTrainer can be used in **two primary modes**: a graphical user interface (GUI) and a **command-line interface (CLI)** for finer control.
-
-For a technically focused quick start, see the [Quick Start Guide](docs/QuickStartGuide.md) and for a broader overview, see the [Overview documentation](docs/Overview.md). Otherwise visit [our wiki!](https://github.com/Nerogar/OneTrainer)
-
-### GUI Mode
-
-#### Windows
-
--   To start the UI, navigate to the OneTrainer folder and double-click `start-ui.bat`
-
-#### Unix-based systems
-
--   Execute `start-ui.sh` and the GUI will pop up.
-
-### CLI Mode
-
-If you need more control or a headless approach OT also supports the command-line interface. All commands **need** to be run inside the active venv created during installation.
-
-All functionality is split into different scripts located in the `scripts` directory. This currently includes:
-
--   `train.py` The central training script
--   `train_ui.py` A UI for training
--   `caption_ui.py` A UI for manual or automatic captioning and mask creation for masked training
--   `convert_model_ui.py` A UI for model conversions
--   `convert_model.py` A utility to convert between different model formats
--   `sample.py` A utility to sample any model
--   `create_train_files.py` A utility to create files needed when training only from the CLI
--   `generate_captions.py` A utility to automatically create captions for your dataset
--   `generate_masks.py` A utility to automatically create masks for your dataset
--   `calculate_loss.py` A utility to calculate the training loss of every image in your dataset
-
-To learn more about the different parameters, execute `<script-name> -h`. For example `python scripts\train.py -h`
-
-If you are on Mac or Linux, you can also read [the launch script documentation](LAUNCH-SCRIPTS.md) for detailed information about how to run OneTrainer and its various scripts on your system.
-
-## Troubleshooting
-
-For general troubleshooting or questions, ask in [Discussions](https://github.com/Nerogar/OneTrainer/discussions), check the [Wiki](https://github.com/Nerogar/OneTrainer/wiki) or join our [Discord](https://discord.gg/KwgcQd5scF).
-
-If you encounter a reproducible error you first must run update.bat or update.sh and confirm the issue is still able to be reproduced. Then export anonymized debug information to help us solve an issue you are facing and upload it as part of your Github Issues submission.
-
--   On Windows double click `export_debug.bat`
--   On Unix-based systems execute `./run-cmd.sh generate_debug_report`
-
-These will both create a `debug_report.log`.
-
-> [!WARNING]
-> We require this file for GitHub issues going forward. Failure to provide it or not manually providing the necessary info will lead to the issue being closed in most circumstances
-
-## Contributing
-
-Contributions are always welcome in any form. For new functionality please open a Github discussion or join our discord so that we can align and avoid duplicated work. You can find more information about contributing [here](docs/Contributing.md).
-
-Before you start looking at the code, I recommend reading about the project structure [here](docs/ProjectStructure.md).
-For in depth discussions, you should consider joining the [Discord](https://discord.gg/KwgcQd5scF) server.
-
-You also **NEED** to **install the required developer dependencies** for your current user and enable the Git commit hooks, via the following commands (works on all platforms; Windows, Linux and Mac):
-
-> [!IMPORTANT]
-> Be sure to run those commands _without activating your venv or Conda environment_, since [pre-commit](https://pre-commit.com/) is supposed to be installed outside any environment.
-
-```sh
-cd OneTrainer
-pip install -r requirements-dev.txt
-pre-commit install
+```bash
+python inference.py \
+  --checkpoint SeFi-Image/SeFi-Image-5B-Base \
+  --prompt "A red apple on a wooden table." \
+  --output-dir outputs/inference/sefi_5b_base
 ```
 
-Now all of your commits will automatically be verified for common errors and code style issues, so that code reviewers can focus on the architecture of your changes without wasting time on style/formatting issues, thus greatly improving the chances that your pull request will be accepted quickly and effortlessly.
+Turbo checkpoints use the same command pattern:
 
-## Related Projects
+```bash
+python inference.py \
+  --checkpoint SeFi-Image/SeFi-Image-5B-turbo \
+  --prompt "A blue ceramic mug on a white desk." \
+  --steps 4 \
+  --output-dir outputs/inference/sefi_5b_turbo
+```
 
--   **[MGDS](https://github.com/Nerogar/mgds)**: A custom dataset implementation for Pytorch that is built around the idea of a node based graph.
--   **[Stability Matrix](https://github.com/LykosAI/StabilityMatrix)**: A swiss-army knife installer which wraps and installs a broad range of diffusion software packages including OneTrainer
--   **[Visions of Chaos](https://softology.pro/voc.htm)**: A collection of machine learning tools that also includes OneTrainer.
--   **[StableTuner](https://github.com/devilismyfriend/StableTuner)**: A now defunct (archived) training application for Stable Diffusion. OneTrainer takes a lot of inspiration from StableTuner and wouldn't exist without it.
+Python API:
+
+```python
+from sefi import SEFIInferencePipeline
+
+pipe = SEFIInferencePipeline.from_pretrained(
+    "SeFi-Image/SeFi-Image-5B-Base",
+)
+images = pipe(
+    "A red apple on a wooden table.",
+    seed=42,
+)
+images[0].save("example.png")
+```
+
+Turbo checkpoints use the same API:
+
+```python
+from sefi import SEFIInferencePipeline
+
+pipe = SEFIInferencePipeline.from_pretrained(
+    "SeFi-Image/SeFi-Image-5B-turbo",
+)
+images = pipe(
+    "A blue ceramic mug on a white desk.",
+    num_inference_steps=4,
+    guidance_scale=1.0,
+    seed=123,
+)
+images[0].save("turbo_example.png")
+```
+
+## Intended Use
+
+SeFi-Image is intended for research and creative text-to-image generation,
+including prompt following, bilingual text rendering, style exploration, and
+model development. The Base checkpoints are suitable starting points for
+fine-tuning and analysis. Turbo checkpoints are intended for fast generation.
+The RL checkpoint is intended for stronger alignment-oriented generation.
+
+## Citation
+
+If you find SeFi-Image useful, please cite the paper:
+
+```bibtex
+@misc{sefiteam2026sefiimagetexttoimagefoundationmodel,
+      title={SeFi-Image: A Text-to-Image Foundation Model with Semantic-First Diffusion}, 
+      author={SeFi-Team},
+      year={2026},
+      eprint={2606.22568},
+      archivePrefix={arXiv},
+      primaryClass={cs.CV},
+      url={https://arxiv.org/abs/2606.22568}, 
+}
+```
