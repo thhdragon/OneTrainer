@@ -5,8 +5,8 @@ from contextlib import nullcontext
 from random import Random
 
 # Append SeFi-Image to path to import model components
-sys.path.append(os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), "SeFi-Image"))
-sys.path.append(os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), "SeFi-Image", "SFD"))
+sys.path.append(os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), "sfd_resources", "SeFi-Image"))
+sys.path.append(os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), "sfd_resources", "SFD"))
 
 from modules.model.BaseModel import BaseModel
 from modules.module.LoRAModule import LoRAModuleWrapper

@@ -5,8 +5,8 @@ import traceback
 from omegaconf import OmegaConf
 
 # Append SeFi-Image to path to import config & builder
-sys.path.append(os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), "SeFi-Image"))
-sys.path.append(os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), "SeFi-Image", "SFD"))
+sys.path.append(os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), "sfd_resources", "SeFi-Image"))
+sys.path.append(os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), "sfd_resources", "SFD"))
 
 from sefi.config import load_config
 from sefi.builder import build_components
@@ -39,7 +39,7 @@ class SefiModelLoader(HFModelLoaderMixin):
         base_model_name = model_names.base_model
         config_path = os.path.join(base_model_name, "sefi_config.yaml")
         if not os.path.exists(config_path):
-            config_path = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), "SeFi-Image", "sefi_config.yaml")
+            config_path = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), "sfd_resources", "SeFi-Image", "sefi_config.yaml")
 
         print(f"Loading SEFI model from config: {config_path}")
         resolved_config = load_config(config_path)
@@ -74,7 +74,7 @@ class SefiModelLoader(HFModelLoaderMixin):
             print(f"Warning: transformer unexpected keys: {unexpected[:10]}")
 
         # Set up SemVAE
-        semvae_ckpt_path = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), "SeFi-Image", "semVAE", "dinov2_vitl14_reg", "transformer_ch16", "checkpoints", "checkpoint_01000000.pt")
+        semvae_ckpt_path = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), "sfd_resources", "SeFi-Image", "semVAE", "dinov2_vitl14_reg", "transformer_ch16", "checkpoints", "checkpoint_01000000.pt")
         if not os.path.exists(semvae_ckpt_path):
             raise FileNotFoundError(f"SemVAE checkpoint not found at: {semvae_ckpt_path}")
 

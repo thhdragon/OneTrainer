@@ -210,6 +210,14 @@ class HFModelLoaderMixin(metaclass=ABCMeta):
             user_agent=user_agent,
         )
 
+        if getattr(self, "random_weights", False):
+            sub_module = module_type(config)
+            return self._convert_transformers_sub_module_to_dtype(
+                sub_module=sub_module,
+                dtype=dtype,
+                train_dtype=train_dtype,
+            )
+
         with accelerate.init_empty_weights():
             sub_module = module_type(config)
 
@@ -246,6 +254,15 @@ class HFModelLoaderMixin(metaclass=ABCMeta):
             return_commit_hash=True,
             user_agent=user_agent,
         )
+
+        if getattr(self, "random_weights", False):
+            sub_module = module_type.from_config(config)
+            return self._convert_diffusers_sub_module_to_dtype(
+                sub_module=sub_module,
+                dtype=dtype,
+                train_dtype=train_dtype,
+                quantization=quantization,
+            )
 
         with accelerate.init_empty_weights():
             sub_module = module_type.from_config(config)

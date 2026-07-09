@@ -103,6 +103,13 @@ class BaseModelTabView(ABC):
 
         row += 1
 
+        # random weights
+        self.components.label(frame, row, 0, "Initialize with random weights",
+                         tooltip="Initialize the model with random weights instead of loading them. Useful for training from scratch/pretraining. Requires Base Model to be a Diffusers folder or HF repo for structure configs.")
+        self.components.switch(frame, row, 1, ui_state, "random_weights")
+
+        row += 1
+
         return row
 
     def __create_base_components(

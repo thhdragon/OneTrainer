@@ -39,6 +39,8 @@ def make_lora_model_loader(
                 quantization: QuantizationConfig,
         ) -> model_class | None:
             base_model_loader = model_loader_class()
+            if getattr(self, "random_weights", False):
+                base_model_loader.random_weights = True
             lora_model_loader = lora_loader_class()
             if embedding_loader_class is not None:
                 embedding_loader = embedding_loader_class()

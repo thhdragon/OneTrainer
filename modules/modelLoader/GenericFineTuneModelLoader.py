@@ -41,13 +41,28 @@ def make_fine_tune_model_loader(
                 weight_dtypes: ModelWeightDtypes,
                 quantization: QuantizationConfig,
         ) -> model_class | None:
+            import os
+            if getattr(self, "random_weights", False):
+                for name in ["base_model", "prior_model", "transformer_model", "effnet_encoder_model", "decoder_model", "text_encoder_4", "vae_model"]:
+                    val = getattr(model_names, name)
+                    if val and os.path.isfile(val):
+                        raise ValueError(
+                            f"To initialize a model with random weights, the '{name}' path must point to a "
+                            f"directory or a Hugging Face repository ID (not a single checkpoint file like '{val}'). "
+                            f"This is required so that the model's structural configuration files can be loaded."
+                        )
+
             base_model_loader = model_loader_class()
+            if getattr(self, "random_weights", False):
+                base_model_loader.random_weights = True
+
             if embedding_loader_class is not None:
                 embedding_loader = embedding_loader_class()
 
             model = model_class(model_type=model_type)
 
-            self._load_internal_data(model, model_names.base_model)
+            if not getattr(self, "random_weights", False):
+                self._load_internal_data(model, model_names.base_model)
             model.model_spec = self._load_default_model_spec(model_type)
 
             base_model_loader.load(model, model_type, model_names, weight_dtypes, quantization)

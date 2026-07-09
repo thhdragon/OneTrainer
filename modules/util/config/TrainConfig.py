@@ -400,6 +400,7 @@ class TrainConfig(BaseConfig):
     async_offloading: bool
     force_circular_padding: bool
     compile: bool
+    random_weights: bool
 
     # data settings
     concept_file_name: str
@@ -1042,6 +1043,7 @@ class TrainConfig(BaseConfig):
         data.append(("async_offloading", True, bool, False))
         data.append(("force_circular_padding", False, bool, False))
         data.append(("compile", False, bool, False))
+        data.append(("random_weights", False, bool, False))
 
         # data settings
         data.append(("concept_file_name", "training_concepts/concepts.json", str, False))

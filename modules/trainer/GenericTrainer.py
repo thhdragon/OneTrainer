@@ -126,6 +126,8 @@ class GenericTrainer(BaseTrainer):
             self.config.quantization.cache_dir = self.config.cache_dir + "/quantization"
         os.makedirs(self.config.quantization.cache_dir, exist_ok=True)
 
+        self.model_loader.random_weights = self.config.random_weights
+
         self.model = self.model_loader.load(
             model_type=self.config.model_type,
             model_names=model_names,
